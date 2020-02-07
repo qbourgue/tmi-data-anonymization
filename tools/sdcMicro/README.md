@@ -35,3 +35,9 @@ sdcApp()
 * import data
 * set SDC problem
 * select anonymizations techniques 
+
+## Parse results
+
+Vim replace all characters up to first comma
+:%s/^[^,]*,//
+
