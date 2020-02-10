@@ -39,5 +39,5 @@ sdcApp()
 ## Parse results
 
 Vim replace all characters up to first comma
-:%s/^[^,]*,//
-
+:%s/^[^,]*,//g
+;%s/"//g
