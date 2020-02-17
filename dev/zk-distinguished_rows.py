@@ -18,4 +18,5 @@ for index, row in tqdm(db.iterrows()):
     associated_row = db_count.loc[(db_count['DEPDOM'] == row['DEPDOM']) &(db_count['AGEXACTM'] == row['AGEXACTM']) & (db_count['AGEXACTP'] == row['AGEXACTP'])]
     db['count'].loc[[index]] = associated_row['count'].iloc[0]
 
-print(db)
+db = db.loc[db['count'] <= K]
+db.to_csv('./data/db_k_selection')
