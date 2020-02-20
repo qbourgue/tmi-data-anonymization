@@ -4,7 +4,7 @@ import pandas as pd
 import sys
 from tqdm import tqdm
 
-K = 5
+K = 3
 file1 = './data/filter_db.csv'
 
 selected_columns = ['ID', 'MNAIS', 'DEPDOM', 'AGEXACTM', 'AGEXACTP']
@@ -19,4 +19,4 @@ for index, row in tqdm(db.iterrows()):
     db['count'].loc[[index]] = associated_row['count'].iloc[0]
 
 db = db.loc[db['count'] <= K]
-db.to_csv('./data/db_k_selection')
+db.to_csv('./data/db_k_selection.csv')
