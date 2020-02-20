@@ -55,23 +55,18 @@ def compute_dist_mute(x,db_anon):
 
 def compute_all_dist(db, db_anon):
     #dist_all_db = pd.DataFrame(columns=['ID', 'MNAIS','AGEXACTM','DEPDOM','AGEXACTP','count','distance','occurence'])
-    dist_all_db = db
-    dist_all_db['distance'] = 0.0
-    dist_all_db['distance'] = dist_all_db['distance'].astype(float)
-    dist_all_db['occurence'] = 0
-    dist_all_db['occurence'] = dist_all_db['occurence'].astype(int)
+    db['distance'] = 0.0
+    db['distance'] = db['distance'].astype(float)
+    db['occurence'] = 0
+    db['occurence'] = db['occurence'].astype(int)
 
     #for index in tqdm(range(db.shape[0])):
     for index, row in tqdm(db.iterrows()):
         x = row
         distance, occurence = compute_dist_mute(x,db_anon)
-        dist_all_db.loc[index]['distance'] = distance
-        dist_all_db.loc[index]['occurence'] = occurence 
-        x['distance'] = distance
-        x['occurence'] = occurence 
-        print('new x',x)
-        print('Id',index,' Distance',distance,'occurence',occurence) 
-    db.to_csv("db_distance_occurence.csv")
+        db['distance'].loc[[index]]= distance
+        db['occurence'].loc[[index]]= occurence 
+    db.to_csv("./data/db_distance_occurence.csv")
     
 
 if __name__ == "__main__":
