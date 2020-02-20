@@ -39,9 +39,9 @@ def compute_dist_mute(x,db_anon):
     delta_db = pd.DataFrame(columns=['d_AgeM','d_AgeP','d_Dep','Max'])
     
     # Absolute difference of attributes Agemere agepere.
-    delta_db['d_AgeM'] = abs(db_anon['AGEXACTM'] - x.iloc[0]['AGEXACTM'])
-    delta_db['d_AgeP'] = abs(db_anon['AGEXACTP'] - x.iloc[0]['AGEXACTP'])
-    delta_db['d_Dep'] = (db_anon['DEPDOM'] != x.iloc[0]['DEPDOM'])*0.5
+    delta_db['d_AgeM'] = abs(db_anon['AGEXACTM'] - x['AGEXACTM'])
+    delta_db['d_AgeP'] = abs(db_anon['AGEXACTP'] - x['AGEXACTP'])
+    delta_db['d_Dep'] = (db_anon['DEPDOM'] != x['DEPDOM'])*0.5
     
     # Max betwen the abs dif of agemere and agepere
     delta_db['Max'] = delta_db.max(axis=1)
@@ -54,13 +54,24 @@ def compute_dist_mute(x,db_anon):
     return distance, occurence
 
 def compute_all_dist(db, db_anon):
-    dist_all_db = pd.DataFrame(columns=['distance','occurence'])
-    for index in tqdm(range(db_anon.shape[0])):
-        x = db.loc[[index+1]]
+    #dist_all_db = pd.DataFrame(columns=['ID', 'MNAIS','AGEXACTM','DEPDOM','AGEXACTP','count','distance','occurence'])
+    dist_all_db = db
+    dist_all_db['distance'] = 0.0
+    dist_all_db['distance'] = dist_all_db['distance'].astype(float)
+    dist_all_db['occurence'] = 0
+    dist_all_db['occurence'] = dist_all_db['occurence'].astype(int)
+
+    #for index in tqdm(range(db.shape[0])):
+    for index, row in tqdm(db.iterrows()):
+        x = row
         distance, occurence = compute_dist_mute(x,db_anon)
-        dist_all_db.loc[index+1] = [distance, occurence]
-    
-    df.to_pickle("db_distance_occurence.pkl")
+        dist_all_db.loc[index]['distance'] = distance
+        dist_all_db.loc[index]['occurence'] = occurence 
+        x['distance'] = distance
+        x['occurence'] = occurence 
+        print('new x',x)
+        print('Id',index,' Distance',distance,'occurence',occurence) 
+    db.to_csv("db_distance_occurence.csv")
     
 
 if __name__ == "__main__":

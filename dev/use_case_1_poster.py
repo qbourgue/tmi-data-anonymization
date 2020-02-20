@@ -27,15 +27,22 @@ def plot_means_bars(file_, file_anon):
     np_means = depdom_means.loc[departements].reset_index().to_numpy()
     anon_np_means = anon_depdom_means.loc[departements].reset_index().to_numpy()
     
-    ind = np.arange(1, len(departements)+1)
-    print(ind)
-    x_depdom = np_means[:,0]
-    print(x_depdom)
+    # x_depdom = np_means[:,0]
+    # print(x_depdom)
     y_agem = np_means[:,1]
     print(y_agem)
     z_agem_anon = anon_np_means[:,1]
     print(z_agem_anon)
     
+    y_agep = np_means[:,2]
+    z_agep_anon = anon_np_means[:,2]
+
+    plot_age_dep(departements, y_agem, z_agem_anon, 'de la mère')
+    plot_age_dep(departements, y_agep, z_agep_anon, 'du père')
+    plt.show()
+
+def plot_age_dep(departements, y_age, z_age_anon, parent_str):
+    ind = np.arange(1, len(departements)+1)
     fig = plt.figure()
     ax = fig.add_subplot(111)
     ##plt.xlim(0, 17)
@@ -43,16 +50,17 @@ def plot_means_bars(file_, file_anon):
     
     width = 0.4
     shift = 0.5*width
-    rects1 = ax.bar(ind-shift, y_agem, width, color='yellowgreen')
-    rects2 = ax.bar(ind+shift, z_agem_anon, width, color='deepskyblue')
+    rects1 = ax.bar(ind-shift, y_age, width, color='yellowgreen')
+    rects2 = ax.bar(ind+shift, z_age_anon, width, color='deepskyblue')
     
     ax.set_xlabel('Départements', fontsize=24)
     ax.set_ylabel('Âge', fontsize=24)
     #ax.set_xticks(ind.tolist(), x_depdom.tolist())
     plt.xticks(ind.tolist(), departements)
     ax.legend( (rects1[0], rects2[0]), ('Données originales', 'Données anonymisées') )
-    plt.title('Âge moyen de la mère en fonction du département', fontsize=24)
-    plt.show()
+    title = 'Âge moyen ' + parent_str + ' en fonction du département'
+    plt.title(title, fontsize=24)
+
 
 # PLOT EXEC
 
