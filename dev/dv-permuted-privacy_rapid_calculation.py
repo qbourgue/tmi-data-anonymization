@@ -56,12 +56,13 @@ def compute_dist_mute(x,db_anon):
 def compute_rapid_dist(x, db_anon):
     A_mere =  x['AGEXACTM']
     A_pere =  x['AGEXACTP']
-    db_selected = db_anon.loc[(db_anon['AGEXACTM'] == A_mere) & (db_anon['AGEXACTP'] == A_pere)] 
+    db_selected = db_anon.loc[(db_anon['AGEXACTM'] == A_mere) & (db_anon['AGEXACTP'] == A_pere)]
     if db_selected.shape[0] == 0:
         # Distance greater than 0.5
         return compute_dist_mute(x,db_anon)
     # Distance zero
-    db_zero_d = db_selected.loc[db_selected['DEPDOM'] == x['DEPDOM']]
+    dep_x = str(x['DEPDOM'])
+    db_zero_d = db_selected[db_selected['DEPDOM'] == dep_x]
     if db_zero_d.shape[0] != 0:
         # Distance is 0
         return 0, db_zero_d.shape[0]
@@ -75,6 +76,9 @@ def compute_all_dist(db, db_anon):
     db['occurence'] = 0
     db['occurence'] = db['occurence'].astype(int)
 
+    # Type comparaison 
+    db_anon['DEPDOM'] = db_anon['DEPDOM'].astype(str)
+    
     #for index in tqdm(range(db.shape[0])):
     for index, row in tqdm(db.iterrows()):
         x = row
