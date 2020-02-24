@@ -4,7 +4,7 @@ import pandas as pd
 import sys
 import numpy as np
 
-K=1
+K=4
 file1 = './data/filter_db.csv'
 f_output1 = './data/filter_db_'+str(K)+'random_digits.csv'
 selected_columns = ['ID', 'MNAIS', 'DEPDOM', 'AGEXACTM', 'AGEXACTP']

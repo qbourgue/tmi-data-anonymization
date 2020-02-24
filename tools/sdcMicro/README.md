@@ -47,4 +47,4 @@ The algorithm keeps the change in the means of the variables before and after ra
 
 Vim replace all characters up to first comma
 :%s/^[^,]*,//g
-;%s/"//g
+:%s/"//g
